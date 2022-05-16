@@ -1,32 +1,36 @@
+import React from "react";
 import {useRef} from "react";
+import type {IData} from "./FormWizard";
 import {Button, TextField, FormLabel} from "@mui/material";
 import classes from "./Page.module.css";
-
-function FormPage1(props){
+interface FromPage1Props{
+    onUpdate:Function,
+    default: IData,
+};
+const FormPage1: React.FC <FromPage1Props>=props =>{
     console.log(props.default)
-    //Reference to textFields
-    const propertyNameInputRef = useRef();
-    const streetInputRef = useRef();
-    const aptInputRef = useRef();
-    const cityInputRef = useRef();
-    const stateInputRef = useRef();
-    const zipInputRef = useRef();
-    const firstNameInputRef = useRef();
-    const lastNameInputRef = useRef();
+    const propertyNameInputRef = useRef<HTMLInputElement>(null);
+    const streetInputRef = useRef<HTMLInputElement>(null);
+    const aptInputRef = useRef<HTMLInputElement>(null);
+    const cityInputRef = useRef<HTMLInputElement>(null);
+    const stateInputRef = useRef<HTMLInputElement>(null);
+    const zipInputRef = useRef<HTMLInputElement>(null);
+    const firstNameInputRef = useRef<HTMLInputElement>(null);
+    const lastNameInputRef = useRef<HTMLInputElement>(null);
 
-    function submitHandler(event){
-        console.log("SUBMIT REQUEST")
+    const submitHandler = (event:React.FormEvent) =>{
+        console.log("SUBMIT REQUEST");
         event.preventDefault();
-        const enteredPropertyName = propertyNameInputRef.current.value;
-        const enteredStreet = streetInputRef.current.value;
-        const enteredApt = aptInputRef.current.value;
-        const enteredCity = cityInputRef.current.value;
-        const enteredState = stateInputRef.current.value;
-        const enteredZip = zipInputRef.current.value;
-        const enteredFirstName = firstNameInputRef.current.value;
-        const enteredLastName = lastNameInputRef.current.value;
+        const enteredPropertyName = propertyNameInputRef.current!.value;
+        const enteredStreet = streetInputRef.current!.value;
+        const enteredApt = aptInputRef.current!.value;
+        const enteredCity = cityInputRef.current!.value;
+        const enteredState = stateInputRef.current!.value;
+        const enteredZip = zipInputRef.current!.value;
+        const enteredFirstName = firstNameInputRef.current!.value;
+        const enteredLastName = lastNameInputRef.current!.value;
 
-        const updateData = {
+        const updateData:IData = {
             //Address are not collapse under child element for data preserve convenience
             //Therefore we are not accessing non-existed element within non-existed element
             propertyName: enteredPropertyName,
@@ -36,21 +40,11 @@ function FormPage1(props){
             state: enteredState,
             zip: enteredZip,
             firstName: enteredFirstName,
-            lastName: enteredLastName
+            lastName: enteredLastName,
         };
         props.onUpdate(updateData);
     }
-
-    return(
-        /*
-        Forms below supports:
-        Preserve form value in memory
-        Input ref by using controlled form
-        Every row of element has class name of "item"
-        "item" are flex box with 1:3 label:content partition
-        "input" are flex box with 3 grid in total to make sure the alignment of the form
-         */
-
+    return (
         <form onSubmit={submitHandler}>
             <div className={classes.item}>
                 <FormLabel id = "Property Name" sx={{mt: 2}} className={classes.label}> Property Name: </FormLabel>
@@ -160,8 +154,7 @@ function FormPage1(props){
             <div className={classes.buttons}>
                 <Button variant = "contained" type = "submit">Next</Button>
             </div>
-        </form>
-    );
+        </form>);
 }
 
 export default FormPage1;

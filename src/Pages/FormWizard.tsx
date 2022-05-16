@@ -5,26 +5,38 @@ import FormPage2 from "./FormPage2";
 import FormPage3 from "./FormPage3";
 import {storage} from "../Firebase/Firebase";
 
+interface IData{
+    propertyName: string,
+    street: string,
+    apt: string,
+    city: string,
+    state: string,
+    zip: string,
+    firstName: string,
+    lastName: string,
+}
+interface IFiles{
+    passport:File,
+    ssn: File
+}
 function FormWizard(){
     //navigate between pages without url routing
     const[page, setPage] = useState(1);
     //json data
-    const[data, setData] = useState({
-        propertyName: '',
+    const[data, setData] = useState<IData>({propertyName: '',
         street: '',
         apt: '',
         city: '',
         state:'',
-        zip:'',
+        zip: '',
         firstName:'',
         lastName:'',
     });
     //picture files
-    const[files, setFiles] = useState({});
+    const[files, setFiles] = useState<IFiles>();
 
-
-    function nextPageAndUpdateHandler(newVal){
-        setData(data => ({...data, ...newVal}));
+    function nextPageAndUpdateHandler(newVal:IData){
+        setData(newVal);
         setPage(page+1);
     }
     function submitDataHandler(){
@@ -47,12 +59,16 @@ function FormWizard(){
         // Upload files into Firebase Storage
         // Into sub-folder of /images/[first name].[last name]/
         console.log("HERE IS MY FILE")
-        for (const file in files){
-            console.log(files[file]);
-            const storageRef = ref(storage,`images/${data["firstName"]}_${data["lastName"]}/${files[file].name}`);
-            uploadBytes(storageRef, files[file]).then((snapshot) => {
-                console.log('Uploaded a blob or file!');
-            });
+        let file: keyof IFiles;
+        for (file in files){
+            if (files) {
+                console.log(files[file]);
+                const storageRef = ref(storage,`images/${data["firstName"]}_${data["lastName"]}/${files[file].name}`);
+                uploadBytes(storageRef, files[file])
+                    .then((snapshot) => {
+                    console.log(snapshot);}
+                    );
+            }
         }
 
         //Go to the final page
@@ -64,10 +80,11 @@ function FormWizard(){
     return(
         <div>
             {page === 1 && <FormPage1 onUpdate={nextPageAndUpdateHandler} default={data}/>}
-            {page === 2 && <FormPage2 onUpdate={submitDataHandler}  updateFiles={setFiles} onBack={prevPage}/>}
+            {page === 2 && <FormPage2 onNext={submitDataHandler} updateFiles={setFiles} onBack={prevPage}/>}
             {page === 3 && <FormPage3/>}
         </div>
     );
-}
-
-export default FormWizard;
+    }
+    export type {IData};
+    export type {IFiles};
+    export default FormWizard;

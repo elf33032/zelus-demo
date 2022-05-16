@@ -1,37 +1,48 @@
-
+import React from "react";
 import MyDropZone from "../Components/MyDropZone";
 import{useState} from "react";
 import Button from "@mui/material/Button";
 import classes from "./Page.module.css";
 import {FormLabel} from "@mui/material";
+import type {IFiles} from "./FormWizard";
 
-function FormPage2(props){
-    const[isPassport, setIsPassport] = useState(false);
-    const[isSSN, setIsSSN] = useState(false);
-
-    function onSubmitHandler(event){
+interface FromPage2Props{
+    onNext: Function;
+    updateFiles: Function;
+    onBack: Function;
+};
+const FormPage2: React.FC <FromPage2Props>= (props) =>{
+    const [isPassport, setIsPassport] = useState(false);
+    const [isSSN, setIsSSN] = useState(false);
+    console.log("Page 2 is reloaded");
+    console.log(isPassport, isSSN);
+    function onSubmitHandler(event:React.FormEvent){
         /*
         When user submit by clicking next button
         We check if all required are satisfied
         */
         event.preventDefault();
-        console.log(isSSN, isPassport);
+        console.log(isPassport, isSSN);
         if(isPassport && isSSN){
-            props.onUpdate();
+            props.onNext();
         }else{
             alert("Please upload both pictures of your Passport and SSN.")
         }
     }
-    //Set files state in FormWizard page, and set file loaded conditions
-    function setPassport(file){
-        const newEntry = {passport: file};
-        props.updateFiles(files=>({...files, ...newEntry}));
-        setIsPassport(true);
+    const onBackHandler = (event: React.MouseEvent<HTMLButtonElement>)=>{
+        event.preventDefault();
+        props.onBack();
     }
-    function setSSN(file){
-        const newEntry = {ssn: file};
-        props.updateFiles(files=>({...files, ...newEntry}));
+    //Set files state in FormWizard page, and set file loaded conditions
+    function setPassport(file:File){
+        props.updateFiles({passport:file});
+        setIsPassport(true);
+        console.log(isPassport, isSSN)
+    }
+    function setSSN(file:File){
+        props.updateFiles({ssn:file});
         setIsSSN(true);
+        console.log(isPassport, isSSN)
     }
     return(
         <form onSubmit={onSubmitHandler}>
@@ -45,7 +56,7 @@ function FormPage2(props){
             </div>
             {!(isPassport && isSSN) && <p className={classes.comment}>* Please Upload All Documents</p>}
             <div className={classes.buttons}>
-                <Button variant = "outlined" onClick={props.onBack}> Previous </Button>
+                <Button variant = "outlined" onClick={onBackHandler}> Previous </Button>
                 <Button variant = "contained" type = "submit"> Next </Button>
             </div>
         </form>
