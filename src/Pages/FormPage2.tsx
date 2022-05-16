@@ -14,8 +14,7 @@ interface FromPage2Props{
 const FormPage2: React.FC <FromPage2Props>= (props) =>{
     const [isPassport, setIsPassport] = useState(false);
     const [isSSN, setIsSSN] = useState(false);
-    console.log("Page 2 is reloaded");
-    console.log(isPassport, isSSN);
+
     function onSubmitHandler(event:React.FormEvent){
         /*
         When user submit by clicking next button
@@ -35,12 +34,12 @@ const FormPage2: React.FC <FromPage2Props>= (props) =>{
     }
     //Set files state in FormWizard page, and set file loaded conditions
     function setPassport(file:File){
-        props.updateFiles({passport:file});
+        props.updateFiles({passport:file} as Partial<IFiles>);
         setIsPassport(true);
         console.log(isPassport, isSSN)
     }
     function setSSN(file:File){
-        props.updateFiles({ssn:file});
+        props.updateFiles({ssn:file} as Partial<IFiles>);
         setIsSSN(true);
         console.log(isPassport, isSSN)
     }

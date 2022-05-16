@@ -39,6 +39,9 @@ function FormWizard(){
         setData(newVal);
         setPage(page+1);
     }
+    function updateFilesHandler(file:Partial<IFiles>){
+        setFiles(prevState => ({...prevState, ...file} as IFiles))
+    }
     function submitDataHandler(){
         console.log("Data is: ");
         console.log(data);
@@ -80,7 +83,7 @@ function FormWizard(){
     return(
         <div>
             {page === 1 && <FormPage1 onUpdate={nextPageAndUpdateHandler} default={data}/>}
-            {page === 2 && <FormPage2 onNext={submitDataHandler} updateFiles={setFiles} onBack={prevPage}/>}
+            {page === 2 && <FormPage2 onNext={submitDataHandler} updateFiles={updateFilesHandler} onBack={prevPage}/>}
             {page === 3 && <FormPage3/>}
         </div>
     );
