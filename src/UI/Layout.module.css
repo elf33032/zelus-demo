@@ -1,0 +1,17 @@
+.global{
+    display:flex
+}
+.sidebar{
+    height:100%;
+    width:20%;
+    top:0;
+    width:0;
+}
+.main {
+    background-color: whitesmoke;
+    padding:20px;
+    height: 100vh;
+    flex-grow:1;
+}
+.content{
+}

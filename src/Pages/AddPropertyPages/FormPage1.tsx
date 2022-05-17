@@ -1,10 +1,10 @@
 import React from "react";
 import {useRef} from "react";
-import type {IData} from "./FormWizard";
+import type {IData} from "../AddNewProperty";
 import {Button, TextField, FormLabel} from "@mui/material";
 import classes from "./Page.module.css";
 interface FromPage1Props{
-    onUpdate:Function,
+    onNext:Function,
     default: IData,
 };
 const FormPage1: React.FC <FromPage1Props>=props =>{
@@ -19,30 +19,20 @@ const FormPage1: React.FC <FromPage1Props>=props =>{
     const lastNameInputRef = useRef<HTMLInputElement>(null);
 
     const submitHandler = (event:React.FormEvent) =>{
-        console.log("SUBMIT REQUEST");
         event.preventDefault();
-        const enteredPropertyName = propertyNameInputRef.current!.value;
-        const enteredStreet = streetInputRef.current!.value;
-        const enteredApt = aptInputRef.current!.value;
-        const enteredCity = cityInputRef.current!.value;
-        const enteredState = stateInputRef.current!.value;
-        const enteredZip = zipInputRef.current!.value;
-        const enteredFirstName = firstNameInputRef.current!.value;
-        const enteredLastName = lastNameInputRef.current!.value;
-
-        const updateData:IData = {
+        const newData:IData = {
             //Address are not collapse under child element for data preserve convenience
             //Therefore we are not accessing non-existed element within non-existed element
-            propertyName: enteredPropertyName,
-            street: enteredStreet,
-            apt: enteredApt,
-            city: enteredCity,
-            state: enteredState,
-            zip: enteredZip,
-            firstName: enteredFirstName,
-            lastName: enteredLastName,
+            propertyName: propertyNameInputRef.current!.value,
+            street: streetInputRef.current!.value,
+            apt: aptInputRef.current!.value,
+            city: cityInputRef.current!.value,
+            state: stateInputRef.current!.value,
+            zip: zipInputRef.current!.value,
+            firstName: firstNameInputRef.current!.value,
+            lastName: lastNameInputRef.current!.value,
         };
-        props.onUpdate(updateData);
+        props.onNext(newData);
     }
     return (
         <form onSubmit={submitHandler}>

@@ -1,10 +1,10 @@
 import React from "react";
-import MyDropZone from "../Components/MyDropZone";
+import MyDropZone from "../../Components/MyDropZone";
 import{useState} from "react";
 import Button from "@mui/material/Button";
 import classes from "./Page.module.css";
 import {FormLabel} from "@mui/material";
-import type {IFiles} from "./FormWizard";
+import type {IFiles} from "../AddNewProperty";
 
 interface FromPage2Props{
     onNext: Function;
@@ -21,7 +21,6 @@ const FormPage2: React.FC <FromPage2Props>= (props) =>{
         We check if all required are satisfied
         */
         event.preventDefault();
-        console.log(isPassport, isSSN);
         if(isPassport && isSSN){
             props.onNext();
         }else{
@@ -32,7 +31,7 @@ const FormPage2: React.FC <FromPage2Props>= (props) =>{
         event.preventDefault();
         props.onBack();
     }
-    //Set files state in FormWizard page, and set file loaded conditions
+    //Set files state in AddNewProperty page, and set file loaded conditions
     function setPassport(file:File){
         props.updateFiles({passport:file} as Partial<IFiles>);
         setIsPassport(true);

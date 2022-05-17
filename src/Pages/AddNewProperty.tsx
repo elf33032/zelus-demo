@@ -1,8 +1,8 @@
 import {useState} from "react";
 import {ref, uploadBytes} from "firebase/storage";
-import FormPage1 from "./FormPage1";
-import FormPage2 from "./FormPage2";
-import FormPage3 from "./FormPage3";
+import FormPage1 from "./AddPropertyPages/FormPage1";
+import FormPage2 from "./AddPropertyPages/FormPage2";
+import FormPage3 from "./AddPropertyPages/FormPage3";
 import {storage} from "../Firebase/Firebase";
 
 interface IData{
@@ -19,7 +19,7 @@ interface IFiles{
     passport:File,
     ssn: File
 }
-function FormWizard(){
+function AddNewProperty(){
     //navigate between pages without url routing
     const[page, setPage] = useState(1);
     //json data
@@ -35,7 +35,7 @@ function FormWizard(){
     //picture files
     const[files, setFiles] = useState<IFiles>();
 
-    function nextPageAndUpdateHandler(newVal:IData){
+    function nextHandler(newVal:IData){
         setData(newVal);
         setPage(page+1);
     }
@@ -69,7 +69,7 @@ function FormWizard(){
                 const storageRef = ref(storage,`images/${data["firstName"]}_${data["lastName"]}/${files[file].name}`);
                 uploadBytes(storageRef, files[file])
                     .then((snapshot) => {
-                    console.log(snapshot);}
+                        console.log(snapshot);}
                     );
             }
         }
@@ -82,12 +82,12 @@ function FormWizard(){
     }
     return(
         <div>
-            {page === 1 && <FormPage1 onUpdate={nextPageAndUpdateHandler} default={data}/>}
+            {page === 1 && <FormPage1 onNext={nextHandler} default={data}/>}
             {page === 2 && <FormPage2 onNext={submitDataHandler} updateFiles={updateFilesHandler} onBack={prevPage}/>}
             {page === 3 && <FormPage3/>}
         </div>
     );
-    }
-    export type {IData};
-    export type {IFiles};
-    export default FormWizard;
+}
+export default AddNewProperty;
+export type {IData};
+export type {IFiles};
