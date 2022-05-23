@@ -1,150 +1,165 @@
 import React from "react";
-import {useRef} from "react";
+import {useForm} from "react-hook-form";
 import type {IData} from "../AddNewProperty";
-import {Button, TextField, FormLabel} from "@mui/material";
-import classes from "./Page.module.css";
+import {createTheme, ThemeProvider, Button, TextField, Grid, Box, Typography, Autocomplete,} from "@mui/material";
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from "yup";
+
+const schema = yup.object({
+    propertyName: yup.string().min(2).max(32).required(),
+    street:yup.string().min(2).max(32).matches(/^[a-zA-Z0-9\s,.'-]*/).required(),
+    apt:yup.string().max(10).matches(/^\d*$/).notRequired(),
+    city:yup.string().min(2).max(32).matches(/^[a-zA-Z]+(?:[\s-][a-zA-Z]+)*$/).required(),
+    state:yup.string().required(),
+    zip:yup.string().min(5).max(5).matches(/^\d+$/).required(),
+    firstName:yup.string().min(2).max(100).matches(/^[a-zA-Z\s,.'-]*/).required(),
+    lastName:yup.string().min(2).max(100).matches(/^[a-zA-Z\s,.'-]*/).required(),
+}).required();
+
 interface FromPage1Props{
     onNext:Function,
     default: IData,
-};
-const FormPage1: React.FC <FromPage1Props>=props =>{
-    console.log(props.default)
-    const propertyNameInputRef = useRef<HTMLInputElement>(null);
-    const streetInputRef = useRef<HTMLInputElement>(null);
-    const aptInputRef = useRef<HTMLInputElement>(null);
-    const cityInputRef = useRef<HTMLInputElement>(null);
-    const stateInputRef = useRef<HTMLInputElement>(null);
-    const zipInputRef = useRef<HTMLInputElement>(null);
-    const firstNameInputRef = useRef<HTMLInputElement>(null);
-    const lastNameInputRef = useRef<HTMLInputElement>(null);
+}
+const theme = createTheme({
+    palette: {
+        primary: {
+            main: '#1976d2',
+        },
+    },
+});
 
-    const submitHandler = (event:React.FormEvent) =>{
-        event.preventDefault();
-        const newData:IData = {
-            //Address are not collapse under child element for data preserve convenience
-            //Therefore we are not accessing non-existed element within non-existed element
-            propertyName: propertyNameInputRef.current!.value,
-            street: streetInputRef.current!.value,
-            apt: aptInputRef.current!.value,
-            city: cityInputRef.current!.value,
-            state: stateInputRef.current!.value,
-            zip: zipInputRef.current!.value,
-            firstName: firstNameInputRef.current!.value,
-            lastName: lastNameInputRef.current!.value,
-        };
-        props.onNext(newData);
+const FormPage1: React.FC <FromPage1Props>=props =>{
+    //console.log(props.default)
+    const { register, handleSubmit, formState:{ errors } } = useForm({
+        resolver: yupResolver(schema)
+    });
+
+    const submitHandler = (data:Partial<IData>) =>{
+        props.onNext(data);
     }
+
     return (
-        <form onSubmit={submitHandler}>
-            <div className={classes.item}>
-                <FormLabel id = "Property Name" sx={{mt: 2}} className={classes.label}> Property Name: </FormLabel>
-                <div className={classes.input}>
-                    <TextField id = "Property Name"
-                               label = "Property Name"
-                               variant = "outlined"
-                               size = "small"
-                               className={classes.flex3}
-                               sx={{m: 1}}
-                               inputRef={propertyNameInputRef}
-                               defaultValue={props.default["propertyName"]}
-                    ></TextField>
-                </div>
-            </div>
-            <div className={classes.item}>
-                <FormLabel id = "* Property Address" sx={{mt: 2}} className={classes.label}> Property Name: </FormLabel>
-                <div className={classes.input}>
-                    <TextField id = "Street Address"
-                               label = "Street Address"
-                               variant = "outlined"
-                               size = "small"
-                               sx={{m: 1}}
-                               className={classes.flex2}
-                               inputRef={streetInputRef}
-                               required
-                               defaultValue={props.default["street"]}
-                    ></TextField>
-                    <TextField id = "APT Number"
-                               label = "Apt Number"
-                               variant = "outlined"
-                               size = "small"
-                               className={classes.flex1}
-                               sx={{m: 1}}
-                               inputRef={aptInputRef}
-                               defaultValue={props.default["apt"]}
-                    ></TextField>
-                </div>
-            </div>
-            <div className={classes.item}>
-                <p className={classes.label} />
-                <div className={classes.input}>
-                    <TextField id = "City"
-                               label = "City"
-                               variant = "outlined"
-                               size = "small"
-                               sx={{m: 1}}
-                               className={classes.flex1}
-                               required
-                               inputRef={cityInputRef}
-                               defaultValue={props.default["city"]}
-                    ></TextField>
-                    <TextField id = "State"
-                               label = "State"
-                               variant = "outlined"
-                               size = "small"
-                               className={classes.flex1}
-                               sx={{m: 1}}
-                               required
-                               inputRef={stateInputRef}
-                               defaultValue={props.default["state"]}
-                    ></TextField>
-                    <TextField id = "ZIP Code"
-                               label = "ZIP Code"
-                               variant = "outlined"
-                               size = "small"
-                               className={classes.flex1}
-                               sx={{m: 1}}
-                               required
-                               inputRef={zipInputRef}
-                               defaultValue={props.default["zip"]}
-                    ></TextField>
-                </div>
-            </div>
-            <div className={classes.item}>
-                <FormLabel id = "First Name" sx={{mt: 2}} className={classes.label}> Owner's First Name: </FormLabel>
-                <div className={classes.input}>
-                    <TextField id = "First Name"
-                               label = "First Name"
-                               variant = "outlined"
-                               size = "small"
-                               className={classes.flex3}
-                               sx={{m: 1}}
-                               inputRef={firstNameInputRef}
-                               required
-                               defaultValue={props.default["firstName"]}
-                    ></TextField>
-                </div>
-            </div>
-            <p className={classes.comment}>Please enter owner's name which is able to find on public record</p>
-            <div className={classes.item}>
-                <FormLabel id = "Last Name" sx={{mt: 2}} className={classes.label}> Owner's Last Name: </FormLabel>
-                <div className={classes.input}>
-                    <TextField id = "Last Name"
-                               label = "Last Name"
-                               variant = "outlined"
-                               size = "small"
-                               className={classes.flex3}
-                               sx={{m: 1}}
-                               inputRef={lastNameInputRef}
-                               required
-                               defaultValue={props.default["lastName"]}
-                    ></TextField>
-                </div>
-            </div>
-            <p className={classes.comment}>Please enter owner's name which is able to find on public record</p>
-            <div className={classes.buttons}>
-                <Button variant = "contained" type = "submit">Next</Button>
-            </div>
-        </form>);
+        <Box id="page-1">
+            <Grid container spacing={1}>
+                <Grid item xs={3}>
+                    <Typography align="right">Property Name:</Typography>
+                </Grid>
+                <Grid item xs={9}>
+                    <TextField id="property-name"
+                               label="Property Name"
+                               variant="outlined"
+                               size="small"
+                               fullWidth
+                               {...register('propertyName')}
+                               error={errors.propertyName ? true : false}
+                               helperText={errors.propertyName ? 'Enter property name of length 2-32':""}
+                    />
+                </Grid>
+                <Grid item xs={3}>
+                    <Typography align="right">Address:</Typography>
+                </Grid>
+                <Grid item xs={6}>
+                    <TextField id="street"
+                               label="Street"
+                               variant="outlined"
+                               size="small"
+                               fullWidth
+                               {...register('street')}
+                               error={errors.street ? true : false}
+                               helperText={errors.street ? 'Enter valid street address':""}
+                    />
+                </Grid>
+                <Grid item xs={3}>
+                    <TextField id="apt-number"
+                               label="Apt Number"
+                               variant="outlined"
+                               size="small"
+                               fullWidth
+                               {...register('apt')}
+                               error={errors.apt ? true : false}
+                               helperText={errors.apt ? 'Enter apt number below length 10':""}
+                    />
+                </Grid>
+                <Grid item xs={3}>
+                    <Typography> </Typography>
+                </Grid>
+                <Grid item xs={3}>
+                    <TextField id="city"
+                               label="City"
+                               variant="outlined"
+                               size="small"
+                               fullWidth
+                               {...register('city')}
+                               error={errors.city ? true : false}
+                               helperText={errors.city ? 'Enter valid city name':""}
+                    />
+                </Grid>
+                <Grid item xs={3}>
+                    <Autocomplete
+                        id="state"
+                        disablePortal
+                        options={stateList}
+                        renderInput={(params) =>
+                            <TextField {...params}
+                                       label="State"
+                                       variant="outlined"
+                                       size="small"
+                                       fullWidth
+                                       {...register('state')}
+                                       error={errors.state ? true : false}
+                                       helperText={errors.state? 'Enter valid state name':""}
+                            />}
+                    />
+
+                </Grid>
+                <Grid item xs={3}>
+                    <TextField id="zip"
+                               label="ZIP"
+                               variant="outlined"
+                               size="small"
+                               fullWidth
+                               {...register('zip')}
+                               error={errors.zip ? true : false}
+                               helperText={errors.zip ? 'Enter 5 digit zipcode':""}
+                    />
+                </Grid>
+                <Grid item xs={3}>
+                    <Typography align="right">First Name:</Typography>
+                </Grid>
+                <Grid item xs={9}>
+                    <TextField id="first-name"
+                               label="First Name"
+                               variant="outlined"
+                               size="small"
+                               fullWidth
+                               {...register('firstName')}
+                               error={errors.firstName ? true : false}
+                               helperText={errors.firstName ? 'Enter valid first name':""}
+                    />
+                </Grid>
+                <Grid item xs={3}>
+                    <Typography align="right">Last Name:</Typography>
+                </Grid>
+                <Grid item xs={9}>
+                    <TextField id="last-name"
+                               label="Last Name"
+                               variant="outlined"
+                               size="small"
+                               fullWidth
+                               {...register('lastName')}
+                               error={errors.lastName ? true : false}
+                               helperText={errors.lastName ? 'Enter valid last name':""}
+                    />
+                </Grid>
+            </Grid>
+            <Box sx={{mt:10,textAlign:"center"}}>
+                <Button id="submit" variant="contained" onClick={handleSubmit(submitHandler)}>Next</Button>
+            </Box>
+        </Box>
+    );
 }
 
+const stateList = [
+    {label:"CA",}
+]
 export default FormPage1;

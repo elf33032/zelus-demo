@@ -23,14 +23,14 @@ function AddNewProperty(){
     //navigate between pages without url routing
     const[page, setPage] = useState(1);
     //json data
-    const[data, setData] = useState<IData>({propertyName: '',
-        street: '',
-        apt: '',
-        city: '',
-        state:'',
-        zip: '',
-        firstName:'',
-        lastName:'',
+    const[data, setData] = useState<IData>({propertyName: "",
+        street: "",
+        apt: "",
+        city: "",
+        state: "",
+        zip: "",
+        firstName:"",
+        lastName:"",
     });
     //picture files
     const[files, setFiles] = useState<IFiles>();

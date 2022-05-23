@@ -43,7 +43,7 @@ const FormPage2: React.FC <FromPage2Props>= (props) =>{
         console.log(isPassport, isSSN)
     }
     return(
-        <form onSubmit={onSubmitHandler}>
+        <form id="page-2" onSubmit={onSubmitHandler}>
             <div className={classes.item}>
                 <FormLabel id = "Passport" sx={{mt: 2, mr: 1}} className={classes.label}>* Owner's Passport: </FormLabel>
                 <MyDropZone updateFile={setPassport}/>
@@ -54,7 +54,7 @@ const FormPage2: React.FC <FromPage2Props>= (props) =>{
             </div>
             {!(isPassport && isSSN) && <p className={classes.comment}>* Please Upload All Documents</p>}
             <div className={classes.buttons}>
-                <Button variant = "outlined" onClick={onBackHandler}> Previous </Button>
+                <Button id="back" variant = "outlined" onClick={onBackHandler}> Previous </Button>
                 <Button variant = "contained" type = "submit"> Next </Button>
             </div>
         </form>

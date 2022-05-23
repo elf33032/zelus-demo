@@ -16,7 +16,7 @@ import Drawer from '@mui/material/Drawer';
 
 const NavigationBar: React.FC = props => {
     const drawerWidth = 240;
-    const [addOpen, setAddOpen] = useState(false);
+    const [addOpen, setAddOpen] = useState(true);
     const addOpenHandler = () => {
         setAddOpen(!addOpen);
     };

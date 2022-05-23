@@ -14,17 +14,16 @@ interface LayoutProps{
 const Layout:React.FC<LayoutProps> = (props) => {
     return(
         <Box sx={{ display: 'flex' }}>
-            <CssBaseline />
             <TopBar/>
             <NavigationBar/>
-            <div className={classes.main}>
+            <Box className={classes.main}>
                 <Box
                     component="main"
                     sx={{bgcolor: 'white', p: 3 , height:1/1, mt:7,}}
                 >
                     {props.children}
                 </Box>
-            </div>
+            </Box>
         </Box>
     );
 }
