@@ -4,6 +4,7 @@ import FormPage1 from "./AddPropertyPages/FormPage1";
 import FormPage2 from "./AddPropertyPages/FormPage2";
 import FormPage3 from "./AddPropertyPages/FormPage3";
 import {storage} from "../Firebase/Firebase";
+import axios from 'axios';
 
 interface IData{
     propertyName: string,
@@ -48,17 +49,7 @@ function AddNewProperty(){
         console.log("Files is: ");
         console.log(files);
         // Send HTML POST to Firebase realtime DB api
-        fetch(
-            "https://zelus-test-default-rtdb.firebaseio.com/userInfo.json",
-            {
-                method: 'POST',
-                body: JSON.stringify(data),
-                headers:{
-                    'Content-Type':'application/json'
-                }
-            }
-        );
-
+        axios.post("https://zelus-test-default-rtdb.firebaseio.com/userInfo.json", JSON.stringify(data));
         // Upload files into Firebase Storage
         // Into sub-folder of /images/[first name].[last name]/
         console.log("HERE IS MY FILE")
