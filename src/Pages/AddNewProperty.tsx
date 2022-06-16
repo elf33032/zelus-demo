@@ -30,32 +30,7 @@ function AddNewProperty(){
             });
 
     });
-    const testPost = {
-        PropertyName: "testProp",
-        Address:{
-            Street:"Hello Kitty Street",
-            Apt:"123",
-            City:"NYC",
-            State:"CA",
-        }
-    };
 
-    axios
-        .post('http://localhost:1337/api/properties',
-            {
-                "data":{
-                    PropertyName: "testProp",
-                    Address:{
-                        Street:"Hello Kitty Street",
-                        Apt:"123",
-                        City:"NYC",
-                        State:"CA",
-                    }
-                }
-            })
-        .then(function (response) {
-            console.log(response.data);
-        });
     axios
         .put('http://localhost:1337/api/properties/1',
             {
@@ -84,6 +59,23 @@ function AddNewProperty(){
     const[files, setFiles] = useState<IFiles>();
 
     function nextHandler(newVal:IData){
+        axios
+            .post('http://localhost:1337/api/properties',
+                {
+                    "data":{
+                        PropertyName: data.propertyName,
+                        Address:{
+                            Street:data.street,
+                            Apt:data.apt,
+                            City:data.city,
+                            State:data.state,
+                            ZIP:data.zip
+                        }
+                    }
+                })
+            .then(function (response) {
+                console.log(response.data);
+            });
         setData(newVal);
         setPage(page+1);
     }
@@ -111,7 +103,6 @@ function AddNewProperty(){
                     );
             }
         }
-
         //Go to the final page
         setPage(page+1);
     }
