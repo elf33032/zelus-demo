@@ -51,7 +51,7 @@ const FormPage1: React.FC <FromPage1Props>=props =>{
                                size="small"
                                fullWidth
                                {...register('propertyName')}
-                               error={errors.propertyName ? true : false}
+                               error={Boolean(errors.propertyName)}
                                helperText={errors.propertyName ? 'Enter property name of length 2-32':""}
                     />
                 </Grid>
@@ -65,7 +65,7 @@ const FormPage1: React.FC <FromPage1Props>=props =>{
                                size="small"
                                fullWidth
                                {...register('street')}
-                               error={errors.street ? true : false}
+                               error={Boolean(errors.street)}
                                helperText={errors.street ? 'Enter valid street address':""}
                     />
                 </Grid>
