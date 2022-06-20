@@ -35,6 +35,7 @@ const FormPage1: React.FC <FromPage1Props>=props =>{
     });
 
     const submitHandler = (data:Partial<IData>) =>{
+        console.log(data);
         props.onNext(data);
     }
 

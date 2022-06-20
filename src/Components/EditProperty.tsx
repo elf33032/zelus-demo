@@ -46,13 +46,14 @@ const EditProperty: React.FC<IEditPropertyProps> = props=>{
             LastName:""
         }
     };
-    const[defaultProperty, setDefaultProperty] = useState<IProperty>(initialState);
+    const[property, setProperty] = useState<IProperty>(initialState);
     useEffect(()=>{
         axios
             .get('http://localhost:1337/api/properties/' + props.id.toString() + '?populate=*')
             .then(function (response) {
                 console.log(response.data.data)
-                setDefaultProperty(response.data.data);
+            }).catch((error)=>{
+
             });
     }, [props.id]);
 
@@ -67,7 +68,6 @@ const EditProperty: React.FC<IEditPropertyProps> = props=>{
                                    variant="standard"
                                    size="small"
                                    fullWidth
-                                   value={defaultProperty.attributes.PropertyName}
                                    {...register('propertyName')}
                                    error={Boolean(errors.propertyName)}
                                    helperText={errors.propertyName ? 'Enter property name of length 2-32':""}
@@ -79,7 +79,6 @@ const EditProperty: React.FC<IEditPropertyProps> = props=>{
                                    variant="standard"
                                    size="small"
                                    fullWidth
-                                   value={defaultProperty.attributes.Address.Street}
                                    {...register('street')}
                                    error={Boolean(errors.street)}
                                    helperText={errors.street ? 'Enter valid street address':""}
@@ -91,7 +90,6 @@ const EditProperty: React.FC<IEditPropertyProps> = props=>{
                                    variant="standard"
                                    size="small"
                                    fullWidth
-                                   value={defaultProperty.attributes.Address.Apt}
                                    {...register('apt')}
                                    error={errors.apt ? true : false}
                                    helperText={errors.apt ? 'Enter apt number below length 10':""}
@@ -103,7 +101,6 @@ const EditProperty: React.FC<IEditPropertyProps> = props=>{
                                    variant="standard"
                                    size="small"
                                    fullWidth
-                                   value={defaultProperty.attributes.Address.City}
                                    {...register('city')}
                                    error={errors.city ? true : false}
                                    helperText={errors.city ? 'Enter valid city name':""}
@@ -120,7 +117,6 @@ const EditProperty: React.FC<IEditPropertyProps> = props=>{
                                            variant="standard"
                                            size="small"
                                            fullWidth
-                                           value={defaultProperty.attributes.Address.State}
                                            {...register('state')}
                                            error={errors.state ? true : false}
                                            helperText={errors.state? 'Enter valid state name':""}
@@ -134,7 +130,6 @@ const EditProperty: React.FC<IEditPropertyProps> = props=>{
                                    variant="standard"
                                    size="small"
                                    fullWidth
-                                   value={defaultProperty.attributes.Address.ZIP}
                                    {...register('zip')}
                                    error={errors.zip ? true : false}
                                    helperText={errors.zip ? 'Enter 5 digit zipcode':""}
@@ -146,7 +141,6 @@ const EditProperty: React.FC<IEditPropertyProps> = props=>{
                                    variant="standard"
                                    size="small"
                                    fullWidth
-                                   value={defaultProperty.attributes.FirstName}
                                    {...register('firstName')}
                                    error={errors.firstName ? true : false}
                                    helperText={errors.firstName ? 'Enter valid first name':""}
@@ -158,7 +152,6 @@ const EditProperty: React.FC<IEditPropertyProps> = props=>{
                                    variant="standard"
                                    size="small"
                                    fullWidth
-                                   value={defaultProperty.attributes.LastName}
                                    {...register('lastName')}
                                    error={errors.lastName ? true : false}
                                    helperText={errors.lastName ? 'Enter valid last name':""}
@@ -169,22 +162,21 @@ const EditProperty: React.FC<IEditPropertyProps> = props=>{
             <DialogActions>
                 <Box sx={{mt:10,textAlign:"center"}}>
                     <Button id="submit" variant="contained" onClick={handleSubmit(d => {
+                        console.log(d.propertyName);
                         axios
-                            .put('http://localhost:1337/api/properties/1',
+                            .put('http://localhost:1337/api/properties/' + props.id.toString(),
                                 {
                                     "data": {
-                                        "data": {
-                                            PropertyName: d.propertyName,
-                                            Address: {
-                                                Street: d.street,
-                                                Apt: d.apt,
-                                                City: d.city,
-                                                State: d.state,
-                                                ZIP: d.zip
-                                            },
-                                            FirstName: d.firstName,
-                                            LastName: d.lastName
-                                        }
+                                        PropertyName: d.propertyName,
+                                        Address: {
+                                            Street: d.street,
+                                            Apt: d.apt,
+                                            City: d.city,
+                                            State: d.state,
+                                            ZIP: d.zip
+                                        },
+                                        FirstName: d.firstName,
+                                        LastName: d.lastName
                                     }
                                 })
                             .then(function (response) {

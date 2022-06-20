@@ -31,10 +31,9 @@ const ManageProperty:React.FC=()=>{
         axios
             .get('http://localhost:1337/api/properties')
             .then(function (response) {
-                console.log(response.data.data)
                 setProperties(response.data.data);
             });
-    }, []);
+    });
 
     return(
         <Box>

@@ -14,18 +14,18 @@ const PropertyCard: React.FC<IPropertyCardProps> = props=>{
         props.setEditDialog(true);
     }
     return(
-        <Grid item xs={3}>
-            <Card sx={{ height:'100%'}}>
-                <CardContent sx={{height: '80px'}}>
-                    <Typography variant = 'h6'> Property </Typography>
-                    <Typography>ID: {props.id}</Typography>
-                    <Typography>Name: {props.propertyName}</Typography>
-                </CardContent>
-                <CardActions>
-                    <Button onClick = {openDialogHandler}> Edit </Button>
-                </CardActions>
-            </Card>
-        </Grid>
+            <Grid item xs={3}>
+                <Card sx={{ height:'100%'}}>
+                    <CardContent sx={{height: '80px'}}>
+                        <Typography variant = 'h6'> Property </Typography>
+                        <Typography>ID: {props.id}</Typography>
+                        <Typography>Name: {props.propertyName}</Typography>
+                    </CardContent>
+                    <CardActions>
+                        <Button onClick = {openDialogHandler}> Edit </Button>
+                    </CardActions>
+                </Card>
+            </Grid>
     );
 }
 

@@ -60,6 +60,10 @@ function AddNewProperty(){
     const[files, setFiles] = useState<IFiles>();
 
     function nextHandler(newVal:IData){
+        setData(newVal);
+        setPage(page+1);
+    }
+    useEffect(()=>{
         axios
             .post('http://localhost:1337/api/properties',
                 {
@@ -78,10 +82,10 @@ function AddNewProperty(){
                 })
             .then(function (response) {
                 console.log(response.data);
-            });
-        setData(newVal);
-        setPage(page+1);
-    }
+            }).catch((error)=>{
+
+        });
+    },[data])
     function updateFilesHandler(file:Partial<IFiles>){
         setFiles(prevState => ({...prevState, ...file} as IFiles))
     }
