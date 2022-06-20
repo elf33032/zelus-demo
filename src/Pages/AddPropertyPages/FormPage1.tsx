@@ -5,7 +5,7 @@ import {createTheme, ThemeProvider, Button, TextField, Grid, Box, Typography, Au
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
 
-const schema = yup.object({
+export const schema = yup.object({
     propertyName: yup.string().min(2).max(32).required(),
     street:yup.string().min(2).max(32).matches(/^[a-zA-Z0-9\s,.'-]*/).required(),
     apt:yup.string().max(10).matches(/^\d*$/).notRequired(),
@@ -159,7 +159,7 @@ const FormPage1: React.FC <FromPage1Props>=props =>{
     );
 }
 
-const stateList = [
+export const stateList = [
     {label:"CA",}
 ]
 export default FormPage1;

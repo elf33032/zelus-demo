@@ -21,16 +21,27 @@ interface IFiles{
     ssn: File
 }
 function AddNewProperty(){
+    /*
     axios
         .put('http://localhost:1337/api/properties/1',
             {
                 "data":{
-                    PropertyName: "testProp",
+                    "data":{
+                        PropertyName: data.propertyName,
+                        Address:{
+                            Street:data.street,
+                            Apt:data.apt,
+                            City:data.city,
+                            State:data.state,
+                            ZIP:data.zip
+                        },
+                        FirstName:data.firstName,
+                        LastName:data.lastName
                 }
             })
         .then(function (response) {
             console.log(response.data);
-        });
+        });*/
 
 
     //navigate between pages without url routing
@@ -60,7 +71,9 @@ function AddNewProperty(){
                             City:data.city,
                             State:data.state,
                             ZIP:data.zip
-                        }
+                        },
+                        FirstName:data.firstName,
+                        LastName:data.lastName
                     }
                 })
             .then(function (response) {
