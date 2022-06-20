@@ -21,16 +21,6 @@ interface IFiles{
     ssn: File
 }
 function AddNewProperty(){
-    const strapiKey = '4b31dddd04de00b7695bbd502662fabdb76bf1f064f762359d5c6baf75fa633fa4b61f93fedce792e673d47f16794335ecc276666fe57bf68f1420b9aef2909008c6c8fe5cfa83f1df242db8f4269a14e88906c7ca5e8178bcb32ae3ea76f62add504eb839a8dbe2a2a61479d515305aacb0cf69a41eab3fcb834147600b2b7e';
-    useEffect(()=>{
-        axios
-            .get('http://localhost:1337/api/properties?populate=*')
-            .then(function (response) {
-                console.log(response.data);
-            });
-
-    });
-
     axios
         .put('http://localhost:1337/api/properties/1',
             {
