@@ -25,7 +25,7 @@ const ManageProperty:React.FC=()=>{
     const [properties, setProperties] = useState<Array<IProperty>>([]);
     const [editDialog, setEditDialog] = useState(false);
     const [editPropertyId, setEditPropertyId] = useState(NaN);
-
+    const [needUpdate, setNeedUpdate] = useState(false);
     useEffect(()=>{
         //?populate=*
         axios
@@ -33,7 +33,8 @@ const ManageProperty:React.FC=()=>{
             .then(function (response) {
                 setProperties(response.data.data);
             });
-    });
+        setNeedUpdate(false);
+    }, [needUpdate]);
 
     return(
         <Box>
@@ -45,6 +46,7 @@ const ManageProperty:React.FC=()=>{
                         id = {property.id}
                         setEditDialog={setEditDialog}
                         setEditPropertyId={setEditPropertyId}
+                        setNeedUpdate={setNeedUpdate}
                     />
                 )}
             </Grid>
@@ -53,6 +55,7 @@ const ManageProperty:React.FC=()=>{
                 id={editPropertyId}
                 editDialog={editDialog}
                 setEditDialog={setEditDialog}
+                setNeedUpdate={setNeedUpdate}
                 />
             }
         </Box>

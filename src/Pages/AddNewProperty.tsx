@@ -21,29 +21,6 @@ interface IFiles{
     ssn: File
 }
 function AddNewProperty(){
-    /*
-    axios
-        .put('http://localhost:1337/api/properties/1',
-            {
-                "data":{
-                    "data":{
-                        PropertyName: data.propertyName,
-                        Address:{
-                            Street:data.street,
-                            Apt:data.apt,
-                            City:data.city,
-                            State:data.state,
-                            ZIP:data.zip
-                        },
-                        FirstName:data.firstName,
-                        LastName:data.lastName
-                }
-            })
-        .then(function (response) {
-            console.log(response.data);
-        });*/
-
-
     //navigate between pages without url routing
     const[page, setPage] = useState(1);
     //json data
@@ -60,32 +37,28 @@ function AddNewProperty(){
     const[files, setFiles] = useState<IFiles>();
 
     function nextHandler(newVal:IData){
-        setData(newVal);
-        setPage(page+1);
-    }
-    useEffect(()=>{
         axios
             .post('http://localhost:1337/api/properties',
                 {
                     "data":{
-                        PropertyName: data.propertyName,
+                        PropertyName: newVal.propertyName,
                         Address:{
-                            Street:data.street,
-                            Apt:data.apt,
-                            City:data.city,
-                            State:data.state,
-                            ZIP:data.zip
+                            Street:newVal.street,
+                            Apt:newVal.apt,
+                            City:newVal.city,
+                            State:newVal.state,
+                            ZIP:newVal.zip
                         },
-                        FirstName:data.firstName,
-                        LastName:data.lastName
+                        FirstName:newVal.firstName,
+                        LastName:newVal.lastName
                     }
                 })
             .then(function (response) {
                 console.log(response.data);
-            }).catch((error)=>{
-
-        });
-    },[data])
+            });
+        setData(newVal);
+        setPage(page+1);
+    }
     function updateFilesHandler(file:Partial<IFiles>){
         setFiles(prevState => ({...prevState, ...file} as IFiles))
     }

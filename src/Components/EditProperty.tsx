@@ -17,46 +17,38 @@ import {
     Button
 } from "@mui/material";
 import axios from "axios";
-import {IProperty} from "../Pages/ManageProperty";
 
 interface IEditPropertyProps{
     id:number;
     editDialog:boolean;
     setEditDialog:Function;
+    setNeedUpdate:Function;
 }
 const EditProperty: React.FC<IEditPropertyProps> = props=>{
-    const { register, handleSubmit, formState:{ errors } } = useForm({
+    const {register, setValue, handleSubmit, formState:{ errors } } = useForm({
         resolver: yupResolver(schema)
     });
     const closeHandler = () => {
         props.setEditDialog(false);
     }
-    const initialState = {
-        id:NaN,
-        attributes:{
-            PropertyName:"",
-            Address:{
-                Street: "",
-                Apt: "",
-                City: "",
-                State: "",
-                ZIP: "",
-            },
-            FirstName:"",
-            LastName:""
-        }
-    };
-    const[property, setProperty] = useState<IProperty>(initialState);
+
     useEffect(()=>{
         axios
             .get('http://localhost:1337/api/properties/' + props.id.toString() + '?populate=*')
             .then(function (response) {
-                console.log(response.data.data)
+                const data = response.data.data;
+                setValue('propertyName', data.attributes.PropertyName);
+                setValue('street', data.attributes.Address.Street);
+                setValue('apt', data.attributes.Address.Apt);
+                setValue('city', data.attributes.Address.City);
+                setValue('state', data.attributes.Address.State);
+                setValue('zip', data.attributes.Address.ZIP);
+                setValue('firstName', data.attributes.FirstName);
+                setValue('lastName', data.attributes.LastName);
             }).catch((error)=>{
 
             });
-    }, [props.id]);
-
+    }, []);
     return(
         <Dialog open={props.editDialog} onClose={closeHandler}>
             <DialogTitle>Edit Property</DialogTitle>
@@ -162,7 +154,6 @@ const EditProperty: React.FC<IEditPropertyProps> = props=>{
             <DialogActions>
                 <Box sx={{mt:10,textAlign:"center"}}>
                     <Button id="submit" variant="contained" onClick={handleSubmit(d => {
-                        console.log(d.propertyName);
                         axios
                             .put('http://localhost:1337/api/properties/' + props.id.toString(),
                                 {
@@ -182,8 +173,9 @@ const EditProperty: React.FC<IEditPropertyProps> = props=>{
                             .then(function (response) {
                                 console.log(response.data);
                             });
+                        props.setNeedUpdate(true);
                         closeHandler();
-                    })}>Next</Button>
+                    })}>Confirm</Button>
                 </Box>
             </DialogActions>
         </Dialog>
