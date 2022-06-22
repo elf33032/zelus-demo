@@ -87,4 +87,5 @@ describe('Loading and finding element', ()=>{
         cy.get("#submit").click();
         cy.get("#back").should('not.exist');
     });
+
 })

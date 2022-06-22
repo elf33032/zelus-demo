@@ -20,7 +20,7 @@ const PropertyCard: React.FC<IPropertyCardProps> = props=>{
             .then(response => props.setNeedUpdate(true));
     }
     return(
-            <Grid item xs={4}>
+            <Grid item sm={4} md={3}>
                 <Card sx={{ height:'100%'}}>
                     <CardContent sx={{height: '80px'}}>
                         <Typography variant = 'h6'> Property </Typography>
