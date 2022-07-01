@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from "react";
-import PropertyCard from "../Components/PropertyCard";
-import EditProperty from "../Components/EditProperty";
+import { useLocation } from 'react-router-dom';
 import axios from "axios";
-import {Box, Grid, Typography, Paper, Dialog} from "@mui/material";
+import {Box, Grid, Typography, Paper, Dialog, Container} from "@mui/material";
+import ManagePage0 from "./ManagePropertyPages/ManagePage0";
 
 export interface IProperty {
     id:number;
@@ -22,43 +22,21 @@ export interface IProperty {
 
 
 const ManageProperty:React.FC=()=>{
-    const [properties, setProperties] = useState<Array<IProperty>>([]);
-    const [editDialog, setEditDialog] = useState(false);
-    const [editPropertyId, setEditPropertyId] = useState(NaN);
-    const [needUpdate, setNeedUpdate] = useState(false);
-    useEffect(()=>{
-        //?populate=*
-        axios
-            .get('http://localhost:1337/api/properties')
-            .then(function (response) {
-                setProperties(response.data.data);
-            });
-        setNeedUpdate(false);
-    }, [needUpdate]);
+    const companyId = 1;
+    const path = useLocation();
+    const[page, setPage] = useState(0);
+    const[property, setProperty] = useState();
 
     return(
-        <Box>
-            <Grid container spacing={1} alignItems = "stretch">
-                {properties.map((property) =>
-                    <PropertyCard
-                        key = {property.id}
-                        propertyName = {property.attributes.PropertyName}
-                        id = {property.id}
-                        setEditDialog={setEditDialog}
-                        setEditPropertyId={setEditPropertyId}
-                        setNeedUpdate={setNeedUpdate}
-                    />
-                )}
-            </Grid>
-            {editDialog &&
-                <EditProperty
-                id={editPropertyId}
-                editDialog={editDialog}
-                setEditDialog={setEditDialog}
-                setNeedUpdate={setNeedUpdate}
-                />
-            }
-        </Box>
+        <Container maxWidth = {false}>
+            <Box sx = {{pt: 2, pb:10}}>
+                <Typography color = 'gray'> Property Management {path.pathname} </Typography>
+                <Typography variant = 'h5'>Managing Property</Typography>
+            </Box>
+            {page === 0 && <ManagePage0 companyId={companyId} setPage={setPage} setProperty={setProperty}/>}
+            {page === 1}
+        </Container>
     );
 }
 export default ManageProperty;
+export const token = "ec1d04b03d4412ea15b9568579a5b1f8ce2567e99728cb78ac401519f988c1ee2b758209c5d1f08338ae6294bfea8e842577922e0f5e16acd54b2bd2a7b16b17d078f0d6c6ae0fb70052a9b57795889b7e3f5cb4359c0312a63ac4d5d1536b62ffcf808508b38784ffb5379e49658ac955a478861480043a72fea896a80efc68";
