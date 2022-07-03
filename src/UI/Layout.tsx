@@ -2,9 +2,7 @@ import classes from "./Layout.module.css"
 import NavigationBar from "../Components/NavigationBar";
 import TopBar from "../Components/TopBar";
 import React from "react"
-
-import Box from '@mui/material/Box';
-import CssBaseline from '@mui/material/CssBaseline';
+import {Container, Box} from "@mui/material";
 
 
 
@@ -16,14 +14,13 @@ const Layout:React.FC<LayoutProps> = (props) => {
         <Box sx={{ display: 'flex' }}>
             <TopBar/>
             <NavigationBar/>
-            <Box className={classes.main}>
+            <Container maxWidth={false} sx={{bgcolor:'#f8f8f8', p:4, height:"100vh"}}>
                 <Box
-                    component="main"
-                    sx={{bgcolor: 'white', p: 3 , height:1/1, mt:7,}}
+                    sx={{bgcolor: 'white', p: 3 , mt:7, overflow:'hidden'}}
                 >
                     {props.children}
                 </Box>
-            </Box>
+            </Container>
         </Box>
     );
 }

@@ -3,29 +3,19 @@ import { Divider, Grid, Paper, Typography } from "@mui/material";
 import { token } from "../Pages/ManageProperty";
 import axios from "axios";
 
-interface propertyStatsProps {
-  companyId: number;
+interface UnitStatsProps {
+  propertyId: number;
 }
-const PropertyStats: React.FC<propertyStatsProps> = (props) => {
-  const [properties, setProperties] = useState();
+const UnitStats: React.FC<UnitStatsProps> = (props) => {
+  const [rent, setRent] = useState(0.0);
   const [renting, setRenting] = useState();
   const [room, setRoom] = useState();
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // find properties with company id
-        let response = await axios.get(
-          `http://localhost:1337/api/properties?filters[property_company][id][$eq]=${props.companyId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        setProperties(response.data.data.length);
         // find company property unit with tenant
-        response = await axios.get(
-          `http://localhost:1337/api/units?populate=*&filters[$and][0][tenants][id][$notNull]=true&filters[$and][1][property][property_company][id][$eq]=${props.companyId}`,
+        let response = await axios.get(
+          `http://localhost:1337/api/units?populate=*&filters[$and][0][tenants][id][$notNull]=true&filters[$and][1][property][id][$eq]=${props.propertyId}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -34,7 +24,7 @@ const PropertyStats: React.FC<propertyStatsProps> = (props) => {
         );
         setRenting(response.data.data.length);
         response = await axios.get(
-          `http://localhost:1337/api/units?populate=*&filters[property][property_company][id][$eq]=${props.companyId}`,
+          `http://localhost:1337/api/units?populate=*&filters[property][id][$eq]=${props.propertyId}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -42,6 +32,11 @@ const PropertyStats: React.FC<propertyStatsProps> = (props) => {
           }
         );
         setRoom(response.data.data.length);
+        let sum = 0.0;
+        for (let index = 0; index < response.data.data.length; index++) {
+          sum += response.data.data[index].attributes.rentRate;
+        }
+        setRent(sum);
       } catch (error) {
         console.log("Error in fetching data");
       }
@@ -52,8 +47,8 @@ const PropertyStats: React.FC<propertyStatsProps> = (props) => {
     <Paper sx={{ p: 3 }}>
       <Grid container>
         <Grid item xs={3}>
-          <Typography variant="subtitle1"> My Total Property</Typography>
-          <Typography variant="h5">{properties}</Typography>
+          <Typography variant="subtitle1"> Total room</Typography>
+          <Typography variant="h5">{room}</Typography>
         </Grid>
         <Grid
           item
@@ -62,6 +57,7 @@ const PropertyStats: React.FC<propertyStatsProps> = (props) => {
           direction="row"
           justifyContent="center"
           alignItems="center"
+          overflow={"hidden"}
         >
           <Divider orientation="vertical" variant="middle" />
         </Grid>
@@ -80,12 +76,12 @@ const PropertyStats: React.FC<propertyStatsProps> = (props) => {
           <Divider orientation="vertical" variant="middle" />
         </Grid>
         <Grid item xs={3}>
-          <Typography variant="subtitle1"> Total Rooms</Typography>
-          <Typography variant="h5">{room}</Typography>
+          <Typography variant="subtitle1"> Total Rent</Typography>
+          <Typography variant="h5">$ {rent}</Typography>
         </Grid>
       </Grid>
     </Paper>
   );
 };
 
-export default PropertyStats;
+export default UnitStats;

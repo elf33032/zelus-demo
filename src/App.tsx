@@ -8,7 +8,7 @@ function App() {
       <Layout>
           <Routes>
               <Route path = '/' element = {<AddNewProperty/>}/>
-              <Route path = '/managing-property' element = {<ManageProperty/>}/>
+              <Route path = '/managing-property/*' element = {<ManageProperty/>}/>
           </Routes>
       </Layout>
   );
