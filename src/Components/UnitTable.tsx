@@ -16,7 +16,7 @@ interface UnitTableProps {
   propertyId: number;
 }
 const UnitTable: React.FC<UnitTableProps> = (props) => {
-  const [content, setContent] = useState();
+  const [content, setContent] = useState<any[]>();
   const [address, setAddress] = useState("");
   useEffect(() => {
     const fetchData = async () => {
@@ -30,31 +30,8 @@ const UnitTable: React.FC<UnitTableProps> = (props) => {
             },
           }
         );
-        const tableContent = response.data.data.map(
-          (unit: {
-            attributes: {
-              id: number;
-              unitNumber: string;
-              tenants: { data: { attributes: { email: string } }[] };
-              rentRate: number;
-            };
-          }) => (
-            <TableRow key={unit.attributes.id}>
-              <TableCell>
-                <Typography>{unit.attributes.unitNumber}</Typography>
-              </TableCell>
-              <TableCell>
-                <Typography>
-                  {unit.attributes.tenants.data[0].attributes.email}
-                </Typography>
-              </TableCell>
-              <TableCell>
-                <Typography>{unit.attributes.rentRate}</Typography>
-              </TableCell>
-            </TableRow>
-          )
-        );
-        setContent(tableContent);
+        setContent(response.data.data);
+        console.log(content);
         response = await axios.get(
           `http://localhost:1337/api/properties?populate=*&filters[id][$eq]=${props.propertyId}`,
           {
@@ -77,7 +54,33 @@ const UnitTable: React.FC<UnitTableProps> = (props) => {
     <TableContainer component={Paper} sx={{ p: 3, mt: 5 }}>
       <Typography variant="h6">{`${address}`}</Typography>
       <Table>
-        <TableBody>{content}</TableBody>
+        <TableBody>
+          {content &&
+            content.map(
+              (unit: {
+                attributes: {
+                  id: number;
+                  unitNumber: string;
+                  tenants: { data: { attributes: { email: string } }[] };
+                  rentRate: number;
+                };
+              }) => (
+                <TableRow key={unit.attributes.id}>
+                  <TableCell>
+                    <Typography>{unit.attributes.unitNumber}</Typography>
+                  </TableCell>
+                  <TableCell>
+                    <Typography>
+                      {unit.attributes.tenants.data[0].attributes.email}
+                    </Typography>
+                  </TableCell>
+                  <TableCell>
+                    <Typography>{unit.attributes.rentRate}</Typography>
+                  </TableCell>
+                </TableRow>
+              )
+            )}
+        </TableBody>
       </Table>
     </TableContainer>
   );

@@ -74,7 +74,6 @@ function AddNewProperty() {
     );
     // Upload files into Firebase Storage
     // Into sub-folder of /images/[first name].[last name]/
-    console.log("HERE IS MY FILE");
     let file: keyof IFiles;
     for (file in files) {
       if (files) {

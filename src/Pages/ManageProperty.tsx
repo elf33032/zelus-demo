@@ -3,7 +3,9 @@ import { useLocation } from "react-router-dom";
 import { Box, Container, Typography } from "@mui/material";
 import ManagePage0 from "./ManagePropertyPages/ManagePage0";
 import ManagePage1 from "./ManagePropertyPages/ManagePage1";
-
+import { Route } from "react-router-dom";
+// React Switch VS Route
+// Nested Routing
 export interface IProperty {
   id: number;
   attributes: {
@@ -24,8 +26,8 @@ const ManageProperty: React.FC = () => {
   const companyId = 1;
   const path = useLocation();
   const [page, setPage] = useState(0);
-  const [property, setProperty] = useState(0);
-
+  const [property, setProperty] = useState<number>();
+  // property?.attribute
   return (
     <Container maxWidth={false}>
       <Box sx={{ pt: 2, pb: 10 }}>
@@ -42,7 +44,9 @@ const ManageProperty: React.FC = () => {
           setProperty={setProperty}
         />
       )}
-      {page === 1 && <ManagePage1 propertyId={property} setPage={setPage} />}
+      {page === 1 && property && (
+        <ManagePage1 propertyId={property} setPage={setPage} />
+      )}
     </Container>
   );
 };

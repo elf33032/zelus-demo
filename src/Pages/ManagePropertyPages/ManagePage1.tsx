@@ -24,7 +24,6 @@ const ManagePage1: React.FC<ManagePage1Props> = (props) => {
           backHandler();
         }}
       >
-        {" "}
         Back
       </Button>
     </Box>
