@@ -9,7 +9,7 @@ function App() {
     <Layout>
       <Routes>
         <Route path="new-property" element={<AddNewProperty />} />
-        <Route path="/" element={<Login />} />
+        <Route path="login" element={<Login />} />
         <Route path="managing-property/*" element={<ManageProperty />} />
       </Routes>
     </Layout>

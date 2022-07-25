@@ -23,7 +23,7 @@ const SignInPage: React.FC<SignInPageProps> = (props) => {
     setValue(newValue);
   };
   return (
-    <Box sx={{ minWidth: "100vh" }}>
+    <Box sx={{ maxWidth: "60vh" }}>
       <Tabs
         value={value}
         onChange={handleChange}
@@ -34,8 +34,8 @@ const SignInPage: React.FC<SignInPageProps> = (props) => {
         <Tab label="Sign Up" />
       </Tabs>
       {value === 0 && (
-        <Grid container spacing={1} sx={{ mt: 3 }}>
-          <Grid item xs={12} justifyContent="center" alignItems="center">
+        <Grid container spacing={1} sx={{ mt: 3 }} justifyContent="center">
+          <Grid container item xs={12} justifyContent="center">
             <TextField
               fullWidth
               id="email"
@@ -49,7 +49,7 @@ const SignInPage: React.FC<SignInPageProps> = (props) => {
               }}
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid container item xs={12} justifyContent="center">
             <TextField
               fullWidth
               type="password"
@@ -64,7 +64,7 @@ const SignInPage: React.FC<SignInPageProps> = (props) => {
               }}
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid container item xs={6} justifyContent="flex-start">
             <FormGroup>
               <FormControlLabel
                 control={<Checkbox defaultChecked />}
@@ -72,12 +72,42 @@ const SignInPage: React.FC<SignInPageProps> = (props) => {
               />
             </FormGroup>
           </Grid>
-          <Grid item xs={6}>
+          <Grid container item xs={6} justifyContent="flex-end">
             <Link href="/forget-password">Forget Password? </Link>
           </Grid>
-          <Grid item xs={12}>
+          <Grid container item xs={12} justifyContent="center">
             <Button variant="contained" sx={{ minWidth: "30vh" }}>
               Log In
+            </Button>
+          </Grid>
+        </Grid>
+      )}
+      {value === 1 && (
+        <Grid container spacing={1} sx={{ mt: 3 }}>
+          <Grid container item xs={12} justifyContent="center">
+            <TextField fullWidth id="email" label="Email Address" />
+          </Grid>
+          <Grid container item xs={12} justifyContent="center">
+            <TextField fullWidth id="password" label="Password" />
+          </Grid>
+          <Grid container item xs={12} justifyContent="center">
+            <TextField fullWidth id="verify_password" label="Password Again" />
+          </Grid>
+          <Grid container item xs={6} justifyContent="center">
+            <TextField fullWidth id="password_verify" label="Password Again" />
+          </Grid>
+          <Grid container item xs={6} justifyContent="center"></Grid>
+          <Grid container item xs={4} justifyContent="flex-start">
+            <Button
+              variant="contained"
+              sx={{ width: "20vh", minWidth: "10vh" }}
+            >
+              Sign Up
+            </Button>
+          </Grid>
+          <Grid container item xs={8} justifyContent="flex-end">
+            <Button variant="text" size="small">
+              Have an account? Log In Here
             </Button>
           </Grid>
         </Grid>

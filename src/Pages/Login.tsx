@@ -1,18 +1,23 @@
 import React, { useState } from "react";
-import { Tabs, Tab, Box, Typography } from "@mui/material";
+import { Tabs, Tab, Box, Typography, Grid } from "@mui/material";
 import SignInPage from "./LoginPages/SignInPage";
+import LoginLogoTitleLayout from "../UI/LoginLogoTitleLayout";
+import ConfirmEmailPage from "./LoginPages/ConfirmEmailPage";
+import ForgotPasswordPage from "./LoginPages/ForgotPasswordPage";
 
 const Login: React.FC = () => {
   const [state, setState] = useState(0);
 
   return (
-    <Box>
-      <Typography align={"center"} variant={"h4"}>
-        {" "}
-        Zelus Property Management{" "}
-      </Typography>
-      {state === 0 && <SignInPage />}
-    </Box>
+    <LoginLogoTitleLayout>
+      <Grid container justifyContent="center">
+        <Grid item>
+          {state === 0 && <SignInPage />}
+          {state === 1 && <ConfirmEmailPage />}
+          {state === 2 && <ForgotPasswordPage />}
+        </Grid>
+      </Grid>
+    </LoginLogoTitleLayout>
   );
 };
 
