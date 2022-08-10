@@ -13,7 +13,9 @@ import {
 } from "@mui/material";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import { stateList } from "./FormPage1";
 
+// Below section is Regex rules for input
 export const schema = yup
   .object({
     propertyName: yup.string().min(2).max(32).required(),
@@ -47,19 +49,11 @@ export const schema = yup
   })
   .required();
 
-interface FromPage1Props {
-  onNext: Function;
+interface FormLandlordProps {
+  previous: Function;
+  next: Function;
 }
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: "#1976d2",
-    },
-  },
-});
-
-const FormPage1: React.FC<FromPage1Props> = (props) => {
-  //console.log(props.default)
+const FormLandlord: React.FC = (props) => {
   const {
     register,
     handleSubmit,
@@ -69,11 +63,11 @@ const FormPage1: React.FC<FromPage1Props> = (props) => {
   });
 
   const submitHandler = (data: Partial<IData>) => {
-    props.onNext(data);
+    //FILL CODE OF SUBMISSION HANDLING HERE
   };
 
   return (
-    <Box id="page-1">
+    <Box id="page-1" sx={{ p: 5, maxWidth: "70vw" }}>
       <Grid container spacing={1}>
         <Grid item xs={3}>
           <Typography align="right">Property Name:</Typography>
@@ -93,7 +87,7 @@ const FormPage1: React.FC<FromPage1Props> = (props) => {
           />
         </Grid>
         <Grid item xs={3}>
-          <Typography align="right">Address:</Typography>
+          <Typography align="right">Property Address:</Typography>
         </Grid>
         <Grid item xs={6}>
           <TextField
@@ -166,7 +160,7 @@ const FormPage1: React.FC<FromPage1Props> = (props) => {
           />
         </Grid>
         <Grid item xs={3}>
-          <Typography align="right">First Name:</Typography>
+          <Typography align="right">Owner's First Name:</Typography>
         </Grid>
         <Grid item xs={9}>
           <TextField
@@ -181,7 +175,7 @@ const FormPage1: React.FC<FromPage1Props> = (props) => {
           />
         </Grid>
         <Grid item xs={3}>
-          <Typography align="right">Last Name:</Typography>
+          <Typography align="right">Owner's Last Name:</Typography>
         </Grid>
         <Grid item xs={9}>
           <TextField
@@ -196,18 +190,38 @@ const FormPage1: React.FC<FromPage1Props> = (props) => {
           />
         </Grid>
       </Grid>
-      <Box sx={{ mt: 10, textAlign: "center" }}>
-        <Button
-          id="submit"
-          variant="contained"
-          onClick={handleSubmit(submitHandler)}
-        >
-          Next
-        </Button>
+      <Box
+        sx={{
+          ml: 5,
+          bottom: 100,
+          width: "70vw",
+          position: "absolute",
+        }}
+      >
+        <Grid container spacing={1} sx={{ mt: 10 }}>
+          <Grid item container xs={6} justifyContent={"flex-end"}>
+            <Button
+              id="submit"
+              variant="outlined"
+              onClick={() => {
+                /*FILL PREVIOUS BUTTON ACTION CODE HERE*/
+              }}
+            >
+              Previous
+            </Button>
+          </Grid>
+          <Grid item container xs={6} justifyContent={"flex-start"}>
+            <Button
+              id="submit"
+              variant="contained"
+              onClick={handleSubmit(submitHandler)}
+            >
+              Next
+            </Button>
+          </Grid>
+        </Grid>
       </Box>
     </Box>
   );
 };
-
-export const stateList = [{ label: "CA" }];
-export default FormPage1;
+export default FormLandlord;

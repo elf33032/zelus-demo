@@ -10,11 +10,12 @@ interface LayoutProps {
 const Layout: React.FC<LayoutProps> = (props) => {
   return (
     <Box sx={{ display: "flex" }}>
-      <TopBar />
       <NavigationBar />
+      <TopBar />
+
       <Container
         maxWidth={false}
-        sx={{ bgcolor: "#f8f8f8", p: 4, height: "100vh" }}
+        sx={{ bgcolor: "#f8f8f8", p: 4, height: "100%" }}
       >
         <Box
           sx={{
@@ -22,7 +23,7 @@ const Layout: React.FC<LayoutProps> = (props) => {
             p: 3,
             mt: 7,
             overflow: "hidden",
-            minHeight: "70vh",
+            minHeight: "87vh",
           }}
         >
           {props.children}

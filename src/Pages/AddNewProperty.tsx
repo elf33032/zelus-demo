@@ -3,7 +3,8 @@ import { ref, uploadBytes } from "firebase/storage";
 import FormPage1 from "./AddPropertyPages/FormPage1";
 import FormPage2 from "./AddPropertyPages/FormPage2";
 import FormPage3 from "./AddPropertyPages/FormPage3";
-import { storage } from "../Firebase/Firebase";
+import Layout from "../UI/Layout";
+import { Box } from "@mui/material";
 import axios from "axios";
 
 interface IData {
@@ -63,10 +64,6 @@ function AddNewProperty() {
     setFiles((prevState) => ({ ...prevState, ...file } as IFiles));
   }
   function submitDataHandler() {
-    console.log("Data is: ");
-    console.log(data);
-    console.log("Files is: ");
-    console.log(files);
     // Send HTML POST to Firebase realtime DB api
     axios.post(
       "https://zelus-test-default-rtdb.firebaseio.com/userInfo.json",
@@ -77,14 +74,7 @@ function AddNewProperty() {
     let file: keyof IFiles;
     for (file in files) {
       if (files) {
-        console.log(files[file]);
-        const storageRef = ref(
-          storage,
-          `images/${data["firstName"]}_${data["lastName"]}/${files[file].name}`
-        );
-        uploadBytes(storageRef, files[file]).then((snapshot) => {
-          console.log(snapshot);
-        });
+        // Upload your file here //
       }
     }
     //Go to the final page
@@ -94,17 +84,15 @@ function AddNewProperty() {
     setPage(page - 1);
   }
   return (
-    <div>
-      {page === 1 && <FormPage1 onNext={nextHandler} default={data} />}
-      {page === 2 && (
-        <FormPage2
-          onNext={submitDataHandler}
-          updateFiles={updateFilesHandler}
-          onBack={prevPage}
-        />
-      )}
-      {page === 3 && <FormPage3 />}
-    </div>
+    <Box>
+      <Layout>
+        <Box>
+          {page === 1 && <FormPage1 onNext={nextHandler} />}
+          {page === 2 && <FormPage2 next={submitDataHandler} back={prevPage} />}
+          {page === 3 && <FormPage3 />}
+        </Box>
+      </Layout>
+    </Box>
   );
 }
 export default AddNewProperty;
