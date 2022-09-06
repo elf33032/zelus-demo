@@ -15,19 +15,9 @@ const Layout: React.FC<LayoutProps> = (props) => {
 
       <Container
         maxWidth={false}
-        sx={{ bgcolor: "#f8f8f8", p: 4, height: "100%" }}
+        sx={{ bgcolor: "#f0f2f5", minHeight: "100vh" }}
       >
-        <Box
-          sx={{
-            bgcolor: "white",
-            p: 3,
-            mt: 7,
-            overflow: "hidden",
-            minHeight: "87vh",
-          }}
-        >
-          {props.children}
-        </Box>
+        {props.children}
       </Container>
     </Box>
   );

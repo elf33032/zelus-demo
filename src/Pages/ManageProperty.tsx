@@ -5,6 +5,9 @@ import ManagePage0 from "./ManagePropertyPages/ManagePage0";
 import ManagePage1 from "./ManagePropertyPages/ManagePage1";
 import Layout from "../UI/Layout";
 import { Route } from "react-router-dom";
+import ManageTitle from "../Components/PropertyManagement/ManageTitle";
+import LayoutManageContainer from "../UI/LayoutManageContainer";
+import ManagePropertyTable from "../Components/PropertyManagement/ManagePropertyTable";
 // React Switch VS Route
 // Nested Routing
 export interface IProperty {
@@ -31,25 +34,12 @@ const ManageProperty: React.FC = () => {
   // property?.attribute
   return (
     <Layout>
-      <Container maxWidth={false}>
-        <Box sx={{ pt: 2, pb: 10 }}>
-          <Typography color="gray">
-            {" "}
-            Property Management {path.pathname}{" "}
-          </Typography>
-          <Typography variant="h5">Managing Property</Typography>
+      <LayoutManageContainer>
+        <Box>
+          <ManageTitle history={"testHistory"} title={"testManagementTitle"} />
+          <ManagePropertyTable />
         </Box>
-        {page === 0 && (
-          <ManagePage0
-            companyId={companyId}
-            setPage={setPage}
-            setProperty={setProperty}
-          />
-        )}
-        {page === 1 && property && (
-          <ManagePage1 propertyId={property} setPage={setPage} />
-        )}
-      </Container>
+      </LayoutManageContainer>
     </Layout>
   );
 };
